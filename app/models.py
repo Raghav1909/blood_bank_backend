@@ -6,6 +6,7 @@ blood_groups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]
 blood_components = ["Plasma", "Platelets", "RBC"]
 status = ["PENDING", "SUCCESS", "FAILED"]
 
+
 class User(Base):
     __tablename__ = "users"
     
@@ -20,6 +21,7 @@ class User(Base):
     donations = relationship("Donation", back_populates="donor")
     requests = relationship("Request", back_populates="user")
 
+
 class Donation(Base):
     __tablename__ = "donations"
     
@@ -32,6 +34,7 @@ class Donation(Base):
     
     donor = relationship("User", back_populates="donations")
 
+
 class BloodComponent(Base):
     __tablename__ = "blood_components"
     
@@ -39,6 +42,7 @@ class BloodComponent(Base):
     blood_group = Column(Enum(*blood_groups, name="blood_groups"), nullable=False)
     component_name = Column(Enum(*blood_components, name="blood_components"), nullable=False)
     expiry_in_days = Column(Integer, nullable=False)
+
 
 class BloodRepository(Base):
     __tablename__ = "repository"
@@ -50,6 +54,7 @@ class BloodRepository(Base):
     
     donors = relationship("User", backref="repository")
     blood_components = relationship("BloodComponent", backref="repository")
+
 
 class Request(Base):
     __tablename__ = "requests"
@@ -64,6 +69,7 @@ class Request(Base):
     user = relationship("User", back_populates="requests")
     blood_components = relationship("BloodComponent", backref="requests")
 
+
 class FulfilledRequest(Base):
     __tablename__ = "fulfilled_requests"
     
@@ -71,6 +77,6 @@ class FulfilledRequest(Base):
     request_id = Column(Integer, ForeignKey("requests.id"), nullable=False)
     date = Column(Date, nullable=False)
     donor_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-
+    
     requests = relationship("Request", backref="fulfilled_requests")
     donors = relationship("User", backref="fulfilled_requests")

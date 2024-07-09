@@ -16,6 +16,18 @@ class UserCreate(UserBase):
 class UserOut(UserBase):
     id: int
 
+
+class DonationBase(BaseModel):
+    donor_id: int
+    is_whole: bool
+    quantity: int
+    blood_component_id: int
+
+
+class DonationCreate(DonationBase):
+    pass
+
+
 class Token(BaseModel):
     access_token: str
     refresh_token: str

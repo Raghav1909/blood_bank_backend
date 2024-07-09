@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Response, status, HTTPException
-from app import schemas, models, utils, oauth2
+from app import models, utils, oauth2
 from app.database import get_db
 from sqlalchemy.orm import Session
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
@@ -23,4 +23,4 @@ def login(response: Response, user_credentials: OAuth2PasswordRequestForm = Depe
     access_token = oauth2.create_access_token(data={"email": user.email})
     refresh_token = oauth2.create_refresh_token(data={"email": user.email})
 
-    oauth2.set_jwt_cookie(response, access_token)
+    oauth2.set_jwt_cookie(response, access_token, refresh_token)
