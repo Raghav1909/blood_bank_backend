@@ -24,3 +24,8 @@ def login(response: Response, user_credentials: OAuth2PasswordRequestForm = Depe
     refresh_token = oauth2.create_refresh_token(data={"email": user.email})
 
     oauth2.set_jwt_cookie(response, access_token, refresh_token)
+
+
+@router.post('/refresh')
+def refresh(response: Response, db: Session = Depends(get_db)):
+    oauth2.set_jwt_cookie(response)
